@@ -21,7 +21,7 @@ const SignIn = () => {
         router.push("/Main");
         // ...
       } else {
-        router.push("/");
+        // router.push("/");
         console.log("not loggedin");
       }
     });

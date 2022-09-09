@@ -20,11 +20,16 @@ const Main = () => {
   const router = useRouter();
   let auth = getAuth();
 
+  const [userUID, setUserUID] = useState("");
+
+  const [darkBg, setDarkBg] = useState(false);
+  const [seting, setSeting] = useState(false);
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
-        // console.log(uid);
+        setUserUID(uid);
         router.push("/Main");
         // ...
       } else {
@@ -33,15 +38,58 @@ const Main = () => {
       }
     });
   }, []);
+
   const [ID, setID] = useState(null);
   const getSingleNote = (id) => {
     setID(id);
   };
 
+  const handleLogout = () => {
+    auth.signOut().then(() => {
+      console.log("user signed out");
+    });
+  };
+
   return (
-    <div className="w-screen h-screen flex justify-between bg-emerald-500  font-bold font-mono">
-      <Left getSingleNote={getSingleNote} />
-      <Right ID={ID} />
+    <div
+      style={{ backgroundColor: darkBg ? "#10b981" : "#86efac" }}
+      className="w-screen h-screen flex justify-between font-bold font-mono text-white "
+    >
+      {userUID && (
+        <>
+          <button
+            className="absolute left-2 top-1 bg-orange-700 rounded-md p-1"
+            onClick={() => setSeting((prevSeting) => !prevSeting)}
+          >
+            Setting
+          </button>
+          {seting && (
+            <div className="absolute bg-orange-700 w-[300px] h-full flex justify-evenly items-center flex-col ">
+              <button
+                onClick={() => setSeting((prevSeting) => !prevSeting)}
+                className="bg-black w-[120px] h-[40px]  rounded-lg font-bold"
+              >
+                close
+              </button>
+              <button
+                onClick={() => setDarkBg((prevThyme) => !prevThyme)}
+                className="bg-black w-[120px] h-[40px]  rounded-lg font-bold"
+              >
+                Change thyme
+              </button>
+              <button
+                onClick={handleLogout}
+                className="bg-black w-[120px] h-[40px]  rounded-lg font-bold"
+              >
+                Sign Out
+              </button>
+            </div>
+          )}
+
+          <Left getSingleNote={getSingleNote} userUID={userUID} />
+          <Right ID={ID} userUID={userUID} />
+        </>
+      )}
     </div>
   );
 };

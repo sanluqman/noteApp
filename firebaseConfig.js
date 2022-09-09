@@ -8,9 +8,9 @@ const firebaseConfig = {
   apiKey: process.env.API_KEY,
   authDomain: process.env.AUTH_DOMAIN,
   projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGEBOCKET,
+  storageBucket: process.env.STOR_AGE_BOCKET,
   messagingSenderId: process.env.MESSAG,
-  appId: process.env.APPID,
+  appId: process.envAPP_ID,
 };
 
 export const app = firebase.initializeApp(firebaseConfig);

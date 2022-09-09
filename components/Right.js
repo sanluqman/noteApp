@@ -14,16 +14,18 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
-const Right = ({ ID }) => {
+const Right = ({ ID, userUID }) => {
   const [singleNote, setSingleNote] = useState({});
   const [noteBody, setNoteBody] = useState("");
   const [noteTitle, setNoteTitle] = useState("");
 
-  const dbInstance = collection(database, "note");
+  const dbInstance = collection(database, userUID);
+  // const dbInstance = collection(database, "note");
 
   const getSingleNote = async () => {
     if (ID) {
-      const singleNote = doc(database, "note", ID);
+      const singleNote = doc(database, userUID, ID);
+      // const singleNote = doc(database, "note", ID);
       const data = await getDoc(singleNote);
       setSingleNote({ ...data.data(), id: data.id });
     }
@@ -54,7 +56,8 @@ const Right = ({ ID }) => {
   }, [ID]);
 
   const editNote = (id) => {
-    const collectionById = doc(database, "note", id);
+    // const collectionById = doc(database, "note", id);
+    const collectionById = doc(database, userUID, id);
 
     updateDoc(collectionById, {
       body: noteBody,
@@ -65,7 +68,8 @@ const Right = ({ ID }) => {
   };
 
   const deleteNote = (id) => {
-    const collectionById = doc(database, "note", id);
+    const collectionById = doc(database, userUID, id);
+    // const collectionById = doc(database, "note", id);
 
     if (
       window.confirm(`Are you sure you want to delete: ${singleNote.noteTitle}`)

@@ -10,7 +10,7 @@ import {
   addDoc,
 } from "firebase/firestore";
 
-const Left = ({ getSingleNote }) => {
+const Left = ({ getSingleNote, userUID }) => {
   const [addingNewNote, setAddingNewNote] = useState(false);
   const [noteTitle, setNoteTitle] = useState("");
   const [noteBody, setNoteBody] = useState("");
@@ -20,7 +20,8 @@ const Left = ({ getSingleNote }) => {
     setAddingNewNote((prev) => !prev);
   };
 
-  const collectionRef = collection(database, "note");
+  const collectionRef = collection(database, userUID);
+  // const collectionRef = collection(database, "note");
 
   const saveNewNote = async () => {
     if (noteTitle.length < 1) return alert("add note title");
